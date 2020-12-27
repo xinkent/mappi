@@ -13,19 +13,23 @@
     <title>mappiお店リスト</title>
   </head>
   <body>
+    {% load static %}
     <h1>おみちぇ</h1>
+
     {% for item in object_list %}
         <div class="card mb-3" style="max-width: 540px;">
             <div class="row no-gutters">
               <div class="col-md-4">
-                <svg class="bd-placeholder-img" width="100%" height="250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Image"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"/><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image</text></svg>
+                <img class="bd-placeholder-img" width="100%" height="auto" src='{{item.store_image.url}}'
+                focusable="false" role="img" aria-label="Placeholder: Image"><rect width="100%" height="100%" fill="#868e96"/></img>
+                <!-- <img width="100%" height="250" src='{{item.store_image.url}}'></img> -->
               </div>
               <div class="col-md-8">
                 <div class="card-body">
                   <h5 class="card-title">{{item.store_name}}</h5>
                   <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
                   <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                  <p class="card-text"><a href="https://pelicancafe.jp/" class="card-link">公式HP</a></p>
+                  <p class="card-text"><a href={{item.store_link}} class="card-link">公式HP</a></p>
                   <p class="card-text">{{item.adress}}</p>
                 </div>
               </div>
