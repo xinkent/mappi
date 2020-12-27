@@ -20,7 +20,7 @@ class Review(models.Model):
     review_sentence = models.CharField(max_length=140)
     review_score = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(5)])
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    store = models.ForeignKey(Store, on_delete=models.CASCADE)
+    store = models.ForeignKey(Store, on_delete=models.CASCADE,related_name='review')
 
     def __str__(self):
         return str(self.id)
