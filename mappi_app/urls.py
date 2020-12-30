@@ -1,7 +1,15 @@
 from django.urls import path
-from .views import StoreList, StoreDetail
+from .views import StoreList, StoreDetail, StoreCreate, StoreMap, StoreReview, StoreMapDetail
+
+app_name = 'mappi_app'
 
 urlpatterns = [
-    path('list/', StoreList.as_view()),
-    path('detail/<int:pk>', StoreDetail.as_view()),
+    path('list/', StoreList.as_view(), name='list'),
+    path('detail/<int:pk>', StoreDetail.as_view(), name='detail'),
+    path('create/',StoreCreate.as_view(), name='create'),
+    path('',StoreMap.as_view()),
+    path('review/<int:pk>',StoreReview.as_view()),
+    path('<int:pk>',StoreMapDetail.as_view(), name='store_map_detail'),
+
+
 ]
