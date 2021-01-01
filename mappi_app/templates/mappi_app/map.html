@@ -1,66 +1,86 @@
 {% load static %}
 <!doctype html>
 <html lang="ja">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>mappippi</title>
-  </head>
-  <body> 
-    <div id="wrapper">  
-      <header>
-        <h1>mappi</h1>
-        <nav>
-          <ul class="main-nav">
-            <li><a href="#">MAP</a></li>
-            <li><a href="{% url 'mappi_app:list' %}">お店LIST</a></li>
-            <li><a href="{% url 'mappi_app:create' %}">お店登録</a></li>
-          </ul>
-        </nav>
-      </header>
-            
-      <div id="map-test01"></div>          
-      <link href="{% static 'css/style.css' %}" rel="stylesheet">
-      <script src="http://maps.google.com/maps/api/js?key=koko&language=ja"&callback=initMap></script>
-      <script src="{% static 'js/map.js' %}"></script>
-      
-<br>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
-      {% if object %}
-        <div id="store_detail" class="card mb-3">
-          <div id="store_detail_inner" class="row no-gutters">
-            <div class="col-md-4">
-              {% if object.store_image %}
-                  <img class="bd-placeholder-img" width="100%" height="auto" src='{{object.store_image.url}}'
-                  focusable="false" role="img" aria-label="Placeholder: Image"><rect width="100%" height="100%" fill="#868e96"/></img>
+  <title>mappippi</title>
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+      <h1>mappi</h1>
+      <nav>
+        <ul class="main-nav">
+          <li><a href="#">MAP</a></li>
+          <li><a href="{% url 'mappi_app:list' %}">お店LIST</a></li>
+          <li><a href="{% url 'mappi_app:create' %}">お店登録</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <div id="map-test01"></div>
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <script defer src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"></script>
+    <script src="{% static 'js/map.js' %}"></script>
+
+    <br>
+
+    {% if object %}
+    <div id="store_detail" class="card mb-3">
+      <div id="store_detail_inner" class="row no-gutters">
+        <div class="col-md-4">
+          {% if object.store_image %}
+          <img class="bd-placeholder-img" width="100%" height="auto" src='{{object.store_image.url}}' focusable="false"
+            role="img" aria-label="Placeholder: Image">
+          <rect width="100%" height="100%" fill="#868e96" /></img>
+          {% endif %}
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">{{object.store_name}}</h5>
+            {% for review in object.review.all %}
+            <p class="card-text">{{review.user.user_name}} {{review.review_score}}</p>
+            <p class="card-text">{{review.review_sentence}}</p>
+            {% endfor %}
+            <p class="card-text">{{object.store_adress}}</p>
+            <p class="card-text"><a href={{object.store_link}} class="card-link">公式HP</a></p>
+            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+
+            <form action="{% url 'mappi_app:update_went_flag' %}" method="post">
+              {% csrf_token %}
+              {% if object.went_flag %}
+              <button type="submit" name="button" value={{object.id}} href="#" class="btn-square-shadow">行った</button>
+              {% else %}
+              <button type="submit" name="button" value={{object.id}} href="#" class="btn-square-shadow">行ってない</button>
               {% endif %}
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title">{{object.store_name}}</h5>
-                {% for review in object.review.all %}
-                  <p class="card-text">{{review.user.user_name}} {{review.review_score}}</p>
-                  <p class="card-text">{{review.review_sentence}}</p>
-                {% endfor %}
-                <p class="card-text">{{object.store_adress}}</p>
-                <p class="card-text"><a href={{object.store_link}} class="card-link">公式HP</a></p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-              </div>
-            </div>
+            </form>
           </div>
         </div>
-      {% endif %}
-
-      <!-- Optional JavaScript -->
-      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+      </div>
     </div>
-  </body>
+    {% endif %}
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+      crossorigin="anonymous"></script>
+  </div>
+</body>
+
 </html>
