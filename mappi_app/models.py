@@ -15,6 +15,8 @@ class Store(models.Model):
     store_image = models.ImageField(upload_to="", null=True, blank=True)
     store_link = models.CharField(max_length=100, null=True, blank=True)
     went_flag = models.BooleanField(default=False)
+    lat = models.FloatField(null=True, blank=True)
+    lng = models.FloatField(null=True, blank=True)
 
     def __str__(self):
         return self.store_name

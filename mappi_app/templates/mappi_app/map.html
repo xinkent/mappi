@@ -29,7 +29,8 @@
 
     <div id="map-test01"></div>
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
-    <script defer src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"></script>
+    <script defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvcIwrcPm4B5csXLHXyuPA9R0i4N7kuVI&callback=initMap"></script>
     <script src="{% static 'js/map.js' %}"></script>
 
     <br>
@@ -58,9 +59,9 @@
             <form action="{% url 'mappi_app:update_went_flag' %}" method="post">
               {% csrf_token %}
               {% if object.went_flag %}
-              <button type="submit" name="button" value={{object.id}} href="#" class="btn-square-shadow">行った</button>
+              <button type="submit" name="button" value={{object.id}} href="#" class="went-btn">行った</button>
               {% else %}
-              <button type="submit" name="button" value={{object.id}} href="#" class="btn-square-shadow">行ってない</button>
+              <button type="submit" name="button" value={{object.id}} href="#" class="wannago-btn">行きたい</button>
               {% endif %}
             </form>
           </div>

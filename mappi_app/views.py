@@ -49,4 +49,4 @@ def update_went_flag(request):
     else:
         store.went_flag = True
     store.save()
-    return redirect("mappi_app:store_map_detail", pk=1)
+    return redirect("mappi_app:store_map_detail", pk=pk)
