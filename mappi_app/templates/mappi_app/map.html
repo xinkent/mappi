@@ -59,9 +59,9 @@
             <form action="{% url 'mappi_app:update_went_flag' %}" method="post">
               {% csrf_token %}
               {% if object.went_flag %}
-              <button type="submit" name="button" value={{object.id}} href="#" class="went-btn">行った</button>
+              <button type="submit" name="button" value={{object.id}} href="#" class="went-btn">♡ 行った</button>
               {% else %}
-              <button type="submit" name="button" value={{object.id}} href="#" class="wannago-btn">行きたい</button>
+              <button type="submit" name="button" value={{object.id}} href="#" class="wannago-btn">♡ 行きたい</button>
               {% endif %}
             </form>
           </div>
