@@ -21,8 +21,10 @@ class StoreCreate(CreateView):
     success_url = reverse_lazy("list")
 
 
-class StoreMap(TemplateView):
+class StoreMap(ListView):
     template_name = "mappi_app/map.html"
+    model = Store
+    context_object_name = "store_list"
 
 
 class StoreReview(CreateView):
@@ -37,7 +39,7 @@ class StoreReview(CreateView):
 
 
 class StoreMapDetail(DetailView):
-    template_name = "mappi_app/map.html"
+    template_name = "mappi_app/store_map_detail.html"
     model = Store
 
 

@@ -29,54 +29,52 @@
 
     <div id="map-test01"></div>
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
-    <script type="text/javascript">
-      // var stores = [
-      //   {% for store in store_list %}
-      //     "{{store.store_name}}",
-      //   {% endfor %}
-      // ]
-      var stores = [
-        {% for store in store_list %}
-        {
-          "name": "{{store.store_name}}",
-          "lat": {{store.lat}},
-          "lng": {{store.lng}},
-        },
-        {% endfor %}
-      ];
+    <script type="text/javaScript">
+        var store_name = "{{object.store_name}}";
+        var store_lat = {{object.lat}} 
+        var store_lng = {{object.lng}} 
     </script>
     <script defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvcIwrcPm4B5csXLHXyuPA9R0i4N7kuVI&callback=initMap"></script>
-    <script src="{% static 'js/map.js' %}"></script>
+    <script src="{% static 'js/store_map_detail.js' %}"></script>
 
     <br>
-    {% for store in store_list %}
-      <div id="store_detail" class="card mb-3">
-        <div id="store_detail_inner" class="row no-gutters">
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">{{store.store_name}}</h5>
-              {% for review in store.review.all %}
-              <p class="card-text">{{review.user.user_name}} {{review.review_score}}</p>
-              <p class="card-text">{{review.review_sentence}}</p>
-              {% endfor %}
-              <p class="card-text">{{store.store_adress}}</p>
-              <p class="card-text"><a href={{store.store_link}} class="card-link">公式HP</a></p>
-              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
 
-              <form action="{% url 'mappi_app:update_went_flag' %}" method="post">
-                {% csrf_token %}
-                {% if store.went_flag %}
-                <button type="submit" name="button" value={{store.id}} href="#" class="went-btn">行った</button>
-                {% else %}
-                <button type="submit" name="button" value={{store.id}} href="#" class="wannago-btn">行きたい</button>
-                {% endif %}
-              </form>
-            </div>
+    {% if object %}
+    <div id="store_detail" class="card mb-3">
+      <div id="store_detail_inner" class="row no-gutters">
+        <div class="col-md-4">
+          {% if object.store_image %}
+          <img class="bd-placeholder-img" width="100%" height="auto" src='{{object.store_image.url}}' focusable="false"
+            role="img" aria-label="Placeholder: Image">
+          <rect width="100%" height="100%" fill="#868e96" /></img>
+          {% endif %}
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">{{object.store_name}}</h5>
+            {% for review in object.review.all %}
+            <p class="card-text">{{review.user.user_name}} {{review.review_score}}</p>
+            <p class="card-text">{{review.review_sentence}}</p>
+            {% endfor %}
+            <p class="card-text">{{object.store_adress}}</p>
+            <p class="card-text"><a href={{object.store_link}} class="card-link">公式HP</a></p>
+            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+
+            <form action="{% url 'mappi_app:update_went_flag' %}" method="post">
+              {% csrf_token %}
+              {% if object.went_flag %}
+              <button type="submit" name="button" value={{object.id}} href="#" class="went-btn">行った</button>
+              {% else %}
+              <button type="submit" name="button" value={{object.id}} href="#" class="wannago-btn">行きたい</button>
+              {% endif %}
+            </form>
           </div>
         </div>
       </div>
-    {% endfor %}
+    </div>
+    {% endif %}
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
